@@ -143,5 +143,5 @@ setInterval(async () => {
     bot.sendMessage(chatId, msg);
   });
   console.log("Atualizado...");
-}, 55000);
+}, 30000);
 // estategiaGol();
