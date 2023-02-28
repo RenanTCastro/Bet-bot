@@ -121,6 +121,7 @@ setInterval(async () => {
     lastMessage = [];
     count = 0;
   }
+
   const message = resp.map((e) => {
     const msg =
       "🎮Partida: " +
