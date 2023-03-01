@@ -14,6 +14,7 @@ const getScoreBingData = async () => {
     let matchesData = data.map((e, i) => {
       if (e.rd && e.plus) {
         return {
+          campeonato: e.league.fn,
           casa: e.host.n,
           fora: e.guest.n,
           minutos: e.status,
@@ -62,7 +63,7 @@ const estrategiaGol = async () => {
     const primeiroTempo =
       parseInt(e.minutos, 10) >= 34 && parseInt(e.minutos, 10) <= 44;
     const segundoTempo =
-      parseInt(e.minutos, 10) >= 79 && parseInt(e.minutos, 10) <= 89;
+      parseInt(e.minutos, 10) >= 79 && parseInt(e.minutos, 10) <= 86;
     const bolaRolando = e.minutos !== "HT" && e.minutos !== "NS";
 
     if (bolaRolando && (primeiroTempo || segundoTempo)) {
@@ -91,7 +92,7 @@ const estrategiaGol = async () => {
     const primeiroTempo =
       parseInt(e.minutos, 10) >= 34 && parseInt(e.minutos, 10) <= 44;
     const segundoTempo =
-      parseInt(e.minutos, 10) >= 79 && parseInt(e.minutos, 10) <= 90;
+      parseInt(e.minutos, 10) >= 79 && parseInt(e.minutos, 10) <= 86;
 
     if (primeiroTempo && (chancesCasa > 8 || chancesFora > 8)) {
       return e;
@@ -126,7 +127,9 @@ setInterval(async () => {
     const msg =
       "🎮🤖 Bet365 Bot Sinais - Escanteio \n" +
       "____________________________________\n\n" +
-      "🏟️ Partida: " +
+      "🏆 Campeonato: " +
+      e.campeonato +
+      "\n🏟️ Partida: " +
       e.casa +
       " x " +
       e.fora +
