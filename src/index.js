@@ -125,7 +125,7 @@ setInterval(async () => {
   const message = resp.map((e) => {
     const msg =
       "🎮🤖 Bet365 Bot Sinais - Escanteio \n" +
-      "___________________________________________\n\n" +
+      "____________________________________\n\n" +
       "🏟️ Partida: " +
       e.casa +
       " x " +
@@ -161,7 +161,6 @@ setInterval(async () => {
       "\n\n";
     bot.sendMessage(chatId, msg);
   });
-  console.log("Atualizado...");
+  const d = new Date();
+  console.log("Atualizado... ", d.toString());
 }, 60000);
-
-// getScoreBingData();
