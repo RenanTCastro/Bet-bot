@@ -60,9 +60,9 @@ const estrategiaGol = async () => {
 
   const selecionarJogosPorMinutos = matches.filter((e) => {
     const primeiroTempo =
-      parseInt(e.minutos, 10) >= 37 && parseInt(e.minutos, 10) <= 44;
+      parseInt(e.minutos, 10) >= 34 && parseInt(e.minutos, 10) <= 44;
     const segundoTempo =
-      parseInt(e.minutos, 10) >= 85 && parseInt(e.minutos, 10) <= 89;
+      parseInt(e.minutos, 10) >= 79 && parseInt(e.minutos, 10) <= 89;
     const bolaRolando = e.minutos !== "HT" && e.minutos !== "NS";
 
     if (bolaRolando && (primeiroTempo || segundoTempo)) {
@@ -89,9 +89,9 @@ const estrategiaGol = async () => {
       parseInt(e.chutesForaFora) +
       parseInt(e.escanteiosFora);
     const primeiroTempo =
-      parseInt(e.minutos, 10) >= 37 && parseInt(e.minutos, 10) <= 45;
+      parseInt(e.minutos, 10) >= 34 && parseInt(e.minutos, 10) <= 44;
     const segundoTempo =
-      parseInt(e.minutos, 10) >= 85 && parseInt(e.minutos, 10) <= 90;
+      parseInt(e.minutos, 10) >= 79 && parseInt(e.minutos, 10) <= 90;
 
     if (primeiroTempo && (chancesCasa > 8 || chancesFora > 8)) {
       return e;
@@ -124,15 +124,17 @@ setInterval(async () => {
 
   const message = resp.map((e) => {
     const msg =
-      "🎮Partida: " +
+      "🎮🤖 Bet365 Bot Sinais - Escanteio \n" +
+      "___________________________________________\n\n" +
+      "🏟️ Partida: " +
       e.casa +
       " x " +
       e.fora +
       "\n" +
-      "⏱️  " +
+      "⏱️ " +
       e.minutos +
-      " minutos\n" +
-      "🏆Placar: " +
+      " minutos\n\n" +
+      "🏆 Placar: " +
       e.golsCasa +
       " x " +
       e.golsFora +
@@ -142,20 +144,24 @@ setInterval(async () => {
       " x " +
       e.escanteiosFora +
       "\n" +
-      "🔥 APPM: " +
+      "🏠 APPM Casa: " +
+      (parseInt(e.ataquesPerigososCasa) / parseInt(e.minutos)).toFixed(2) +
+      "\n🚗 APPM Fora: " +
+      (parseInt(e.ataquesPerigososFora) / parseInt(e.minutos)).toFixed(2) +
+      "\n🔥 APPM Total: " +
       (
-        (parseInt(e.ataquesPerigososCasa) + parseInt(e.ataquesPerigososCasa)) /
+        (parseInt(e.ataquesPerigososCasa) + parseInt(e.ataquesPerigososFora)) /
         parseInt(e.minutos)
       ).toFixed(2) +
-      "\n" +
+      "\n\n" +
       "🟥 Cartão vermelho: " +
       e.cartoesVermelhosCasa +
       " x " +
       e.cartoesVermelhosFora +
-      "\n";
+      "\n\n";
     bot.sendMessage(chatId, msg);
   });
   console.log("Atualizado...");
-}, 55000);
+}, 60000);
 
 // getScoreBingData();
