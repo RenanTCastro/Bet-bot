@@ -114,7 +114,7 @@ const estrategiaGol = async () => {
 };
 
 setInterval(async () => {
-  const chatId = "-1001766415411";
+  const chatId = "-1001583525393";
   const resp = await estrategiaGol();
   lastMessage.push(...resp);
   count++;
