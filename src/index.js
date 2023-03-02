@@ -114,7 +114,7 @@ const estrategiaGol = async () => {
 };
 
 setInterval(async () => {
-  const chatId = "-1001748075889";
+  const chatId = "-1001766415411";
   const resp = await estrategiaGol();
   lastMessage.push(...resp);
   count++;
@@ -125,7 +125,6 @@ setInterval(async () => {
 
   const message = resp.map((e) => {
     const msg =
-      "🎮🤖 Bet365 Bot Sinais - Escanteio \n" +
       "____________________________________\n\n" +
       "🏆 Campeonato: " +
       e.campeonato +
