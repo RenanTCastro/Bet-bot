@@ -61,9 +61,9 @@ const estrategiaGol = async () => {
 
   const selecionarJogosPorMinutos = matches.filter((e) => {
     const primeiroTempo =
-      parseInt(e.minutos, 10) >= 34 && parseInt(e.minutos, 10) <= 44;
+      parseInt(e.minutos, 10) >= 34 && parseInt(e.minutos, 10) <= 41;
     const segundoTempo =
-      parseInt(e.minutos, 10) >= 79 && parseInt(e.minutos, 10) <= 86;
+      parseInt(e.minutos, 10) >= 78 && parseInt(e.minutos, 10) <= 84;
     const bolaRolando = e.minutos !== "HT" && e.minutos !== "NS";
 
     if (bolaRolando && (primeiroTempo || segundoTempo)) {
@@ -76,7 +76,12 @@ const estrategiaGol = async () => {
       parseInt(e.ataquesPerigososFora) + parseInt(e.ataquesPerigososCasa);
 
     if (ataquesPerigosos / parseInt(e.minutos) >= 1) {
-      return e;
+      if (
+        parseInt(e.ataquesPerigososFora) / parseInt(e.minutos) >= 0.65 ||
+        parseInt(e.ataquesPerigososCasa) / parseInt(e.minutos) >= 0.65
+      ) {
+        return e;
+      }
     }
   });
 
@@ -90,9 +95,9 @@ const estrategiaGol = async () => {
       parseInt(e.chutesForaFora) +
       parseInt(e.escanteiosFora);
     const primeiroTempo =
-      parseInt(e.minutos, 10) >= 34 && parseInt(e.minutos, 10) <= 44;
+      parseInt(e.minutos, 10) >= 34 && parseInt(e.minutos, 10) <= 41;
     const segundoTempo =
-      parseInt(e.minutos, 10) >= 79 && parseInt(e.minutos, 10) <= 86;
+      parseInt(e.minutos, 10) >= 79 && parseInt(e.minutos, 10) <= 84;
 
     if (primeiroTempo && (chancesCasa > 8 || chancesFora > 8)) {
       return e;
