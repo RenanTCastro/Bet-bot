@@ -1,8 +1,8 @@
 const scoreBing = require("scorebing-api");
 const TelegramBot = require("node-telegram-bot-api");
 
-// const token = "5844216097:AAGtlZ-lN2khzIUseRyFySPzKe8kW3pHXTg";
-// const bot = new TelegramBot(token, { polling: true });
+const token = "5844216097:AAGtlZ-lN2khzIUseRyFySPzKe8kW3pHXTg";
+const bot = new TelegramBot(token, { polling: true });
 
 let lastMessage = [];
 let count = 0;
