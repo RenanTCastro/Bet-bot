@@ -131,7 +131,7 @@ setInterval(async () => {
   const resp = await estrategiaGol();
   lastMessage.push(...resp);
   count++;
-  if (count == 40) {
+  if (count == 15) {
     lastMessage = [];
     count = 0;
   }
