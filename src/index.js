@@ -1,8 +1,8 @@
 const scoreBing = require("scorebing-api");
 const TelegramBot = require("node-telegram-bot-api");
 
-const token = "5844216097:AAGtlZ-lN2khzIUseRyFySPzKe8kW3pHXTg";
-const bot = new TelegramBot(token, { polling: true });
+// const token = "5844216097:AAGtlZ-lN2khzIUseRyFySPzKe8kW3pHXTg";
+// const bot = new TelegramBot(token, { polling: true });
 
 let lastMessage = [];
 let count = 0;
@@ -61,9 +61,9 @@ const estrategiaGol = async () => {
 
   const selecionarJogosPorMinutos = matches.filter((e) => {
     const primeiroTempo =
-      parseInt(e.minutos, 10) >= 34 && parseInt(e.minutos, 10) <= 41;
+      parseInt(e.minutos, 10) >= 34 && parseInt(e.minutos, 10) <= 40;
     const segundoTempo =
-      parseInt(e.minutos, 10) >= 78 && parseInt(e.minutos, 10) <= 84;
+      parseInt(e.minutos, 10) >= 78 && parseInt(e.minutos, 10) <= 85;
     const bolaRolando = e.minutos !== "HT" && e.minutos !== "NS";
 
     if (bolaRolando && (primeiroTempo || segundoTempo)) {
@@ -74,11 +74,19 @@ const estrategiaGol = async () => {
   const selecionarJogosPorAPPM = selecionarJogosPorMinutos.filter((e) => {
     const ataquesPerigosos =
       parseInt(e.ataquesPerigososFora) + parseInt(e.ataquesPerigososCasa);
+    const primeiroTempo =
+      parseInt(e.minutos, 10) >= 34 && parseInt(e.minutos, 10) <= 40;
+    const segundoTempo =
+      parseInt(e.minutos, 10) >= 79 && parseInt(e.minutos, 10) <= 85;
 
     if (ataquesPerigosos / parseInt(e.minutos) >= 1) {
       if (
-        parseInt(e.ataquesPerigososFora) / parseInt(e.minutos) >= 0.65 ||
-        parseInt(e.ataquesPerigososCasa) / parseInt(e.minutos) >= 0.65
+        (parseInt(e.ataquesPerigososFora) / parseInt(e.minutos) >= 0.7 &&
+          ((primeiroTempo && e.escanteiosFora >= 4) ||
+            (segundoTempo && e.escanteiosFora >= 7))) ||
+        (parseInt(e.ataquesPerigososCasa) / parseInt(e.minutos) >= 0.7 &&
+          ((primeiroTempo && e.escanteiosCasa >= 4) ||
+            (segundoTempo && e.escanteiosCasa >= 7)))
       ) {
         return e;
       }
@@ -95,9 +103,9 @@ const estrategiaGol = async () => {
       parseInt(e.chutesForaFora) +
       parseInt(e.escanteiosFora);
     const primeiroTempo =
-      parseInt(e.minutos, 10) >= 34 && parseInt(e.minutos, 10) <= 41;
+      parseInt(e.minutos, 10) >= 34 && parseInt(e.minutos, 10) <= 40;
     const segundoTempo =
-      parseInt(e.minutos, 10) >= 79 && parseInt(e.minutos, 10) <= 84;
+      parseInt(e.minutos, 10) >= 79 && parseInt(e.minutos, 10) <= 85;
 
     if (primeiroTempo && (chancesCasa > 8 || chancesFora > 8)) {
       return e;
@@ -170,4 +178,4 @@ setInterval(async () => {
   });
   const d = new Date();
   console.log("Atualizado... ", d.toString());
-}, 60000);
+}, 120000);
