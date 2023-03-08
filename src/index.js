@@ -229,11 +229,11 @@ setInterval(async () => {
     bot.sendMessage(chatId, msg);
   });
 
-  const messageGolHT = resp.map((e) => {
+  const messageGolHT = respGolHT.map((e) => {
     const msg =
       "____________________________________\n\n" +
-      "🎮 Oportunidade de over 0.5HT - verique se time mais perigoso tem histórico com mais de 705 de over 0.5HT -\n" +
-      "🏆 Campeonato: " +
+      "🎮 Oportunidade de over 0.5HT - verique se time mais perigoso tem histórico com mais de 70% de over 0.5HT -\n" +
+      "\n🏆 Campeonato: " +
       e.campeonato +
       "\n🏟️ Partida: " +
       e.casa +
