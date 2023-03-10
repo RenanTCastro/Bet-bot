@@ -286,4 +286,4 @@ setInterval(async () => {
 
   const d = new Date();
   console.log("Atualizado... ", d.toString());
-}, 1000);
+}, 120000);
