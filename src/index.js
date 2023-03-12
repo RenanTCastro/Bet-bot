@@ -55,7 +55,7 @@ const getScoreBingData = async () => {
 
   return matches;
 };
-
+getScoreBingData();
 const estrategiaEscanteio = async () => {
   const matches = await getScoreBingData();
 
@@ -138,56 +138,57 @@ const estrategiaEscanteio = async () => {
   return selecionarJogosPorDiferencaGols;
 };
 
-// const estrategiaGolHT = async () => {
-//   const matches = await getScoreBingData();
-//   const selecionarJogosPorMinutos = matches.filter((e) => {
-//     const primeiroTempo =
-//       parseInt(e.minutos, 10) >= 17 && parseInt(e.minutos, 10) <= 25;
-//     const bolaRolando = e.minutos !== "HT" && e.minutos !== "NS";
+const estrategiaGolHT = async () => {
+  const matches = await getScoreBingData();
+  const selecionarJogosPorMinutos = matches.filter((e) => {
+    const primeiroTempo =
+      parseInt(e.minutos, 10) >= 30 && parseInt(e.minutos, 10) <= 36;
+    const bolaRolando = e.minutos !== "HT" && e.minutos !== "NS";
 
-//     if (bolaRolando && primeiroTempo) {
-//       return e;
-//     }
-//   });
+    if (bolaRolando && primeiroTempo) {
+      return e;
+    }
+  });
 
-//   const selecionarJogosPorLiveStats = selecionarJogosPorMinutos.filter((e) => {
-//     parseInt(e.chutesGolFora) +
-//       parseInt(e.chutesForaFora) +
-//       parseInt(e.escanteiosFora);
+  const selecionarJogosPorLiveStats = selecionarJogosPorMinutos.filter((e) => {
+    const appmCasa = parseFloat(e.ataquesPerigososCasa) / parseFloat(e.minutos);
+    const appmFora = parseFloat(e.ataquesPerigososFora) / parseFloat(e.minutos);
 
-//     if (parseInt(e.golsCasa) === 0 && parseInt(e.golsFora) === 0) {
-//       if (parseInt(e.ataquesPerigososCasa) >= 1) {
-//         if (
-//           parseInt(e.chutesGolCasa) >= 2 &&
-//           parseInt(e.chutesForaCasa) >= 2 &&
-//           parseInt(e.escanteiosCasa) >= 1 &&
-//           parseInt(e.posseBolaCasa) >= 55
-//         ) {
-//           return e;
-//         }
-//       } else if (parseInt(e.ataquesPerigososFora) >= 1) {
-//         if (
-//           parseInt(e.chutesGolFora) >= 2 &&
-//           parseInt(e.chutesForaFora) >= 2 &&
-//           parseInt(e.escanteiosFora) >= 1 &&
-//           parseInt(e.posseBolaFora) >= 55
-//         ) {
-//           return e;
-//         }
-//       }
-//     }
-//   });
+    if (parseInt(e.golsCasa) === 0 && parseInt(e.golsFora) === 0) {
+      if (appmCasa >= 1.3) {
+        if (
+          parseInt(e.chutesGolCasa) +
+            parseInt(e.chutesForaCasa) +
+            parseInt(e.escanteiosCasa) >=
+            10 &&
+          parseFloat(e.posseBolaCasa) * appmCasa >= 100
+        ) {
+          return e;
+        }
+      } else if (appmFora >= 1.3) {
+        if (
+          parseInt(e.chutesGolFora) +
+            parseInt(e.chutesForaFora) +
+            parseInt(e.escanteiosFora) >=
+            10 &&
+          parseFloat(e.posseBolaCasa) * appmFora >= 100
+        ) {
+          return e;
+        }
+      }
+    }
+  });
 
-//   return selecionarJogosPorLiveStats;
-// };
+  return selecionarJogosPorLiveStats;
+};
 
 setInterval(async () => {
   const chatId = "-1001583525393";
   const chatIdFree = "-1001876948773";
   const resp = await estrategiaEscanteio();
-  // const respGolHT = await estrategiaGolHT();
+  const respGolHT = await estrategiaGolHT();
   lastMessage.push(...resp);
-  // lastMessage.push(...respGolHT);
+  lastMessage.push(...respGolHT);
   count++;
   if (count == 15) {
     lastMessage = [];
@@ -242,47 +243,47 @@ setInterval(async () => {
     bot.sendMessage(chatId, msg);
     bot.sendMessage(chatIdFree, msg);
   });
-  // const messageGolHT = respGolHT.map((e) => {
-  //   const msg =
-  //     "____________________________________\n\n" +
-  //     "🎮 Oportunidade de over 0.5HT - verique se time mais perigoso tem histórico com mais de 70% de over 0.5HT -\n" +
-  //     "\n🏆 Campeonato: " +
-  //     e.campeonato +
-  //     "\n🏟️ Partida: " +
-  //     e.casa +
-  //     " x " +
-  //     e.fora +
-  //     "\n" +
-  //     "⏱️ " +
-  //     e.minutos +
-  //     " minutos\n\n" +
-  //     "🏆 Placar: " +
-  //     e.golsCasa +
-  //     " x " +
-  //     e.golsFora +
-  //     "\n" +
-  //     "🚩 Escanteios: " +
-  //     e.escanteiosCasa +
-  //     " x " +
-  //     e.escanteiosFora +
-  //     "\n" +
-  //     "🏠 APPM Casa: " +
-  //     (parseInt(e.ataquesPerigososCasa) / parseInt(e.minutos)).toFixed(2) +
-  //     "\n🚗 APPM Fora: " +
-  //     (parseInt(e.ataquesPerigososFora) / parseInt(e.minutos)).toFixed(2) +
-  //     "\n🔥 APPM Total: " +
-  //     (
-  //       (parseInt(e.ataquesPerigososCasa) + parseInt(e.ataquesPerigososFora)) /
-  //       parseInt(e.minutos)
-  //     ).toFixed(2) +
-  //     "\n\n" +
-  //     "🟥 Cartão vermelho: " +
-  //     e.cartoesVermelhosCasa +
-  //     " x " +
-  //     e.cartoesVermelhosFora +
-  //     "\n\n";
-  //   bot.sendMessage(chatId, msg);
-  // });
+  const messageGolHT = respGolHT.map((e) => {
+    const msg =
+      "____________________________________\n\n" +
+      "🎮 Oportunidade de over 0.5HT\n" +
+      "\n🏆 Campeonato: " +
+      e.campeonato +
+      "\n🏟️ Partida: " +
+      e.casa +
+      " x " +
+      e.fora +
+      "\n" +
+      "⏱️ " +
+      e.minutos +
+      " minutos\n\n" +
+      "🏆 Placar: " +
+      e.golsCasa +
+      " x " +
+      e.golsFora +
+      "\n" +
+      "🚩 Escanteios: " +
+      e.escanteiosCasa +
+      " x " +
+      e.escanteiosFora +
+      "\n" +
+      "🏠 APPM Casa: " +
+      (parseInt(e.ataquesPerigososCasa) / parseInt(e.minutos)).toFixed(2) +
+      "\n🚗 APPM Fora: " +
+      (parseInt(e.ataquesPerigososFora) / parseInt(e.minutos)).toFixed(2) +
+      "\n🔥 APPM Total: " +
+      (
+        (parseInt(e.ataquesPerigososCasa) + parseInt(e.ataquesPerigososFora)) /
+        parseInt(e.minutos)
+      ).toFixed(2) +
+      "\n\n" +
+      "🟥 Cartão vermelho: " +
+      e.cartoesVermelhosCasa +
+      " x " +
+      e.cartoesVermelhosFora +
+      "\n\n";
+    bot.sendMessage(chatId, msg);
+  });
 
   const d = new Date();
   console.log("Atualizado... ", d.toString());
