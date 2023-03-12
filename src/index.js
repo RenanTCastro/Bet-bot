@@ -123,10 +123,10 @@ const estrategiaEscanteio = async () => {
         parseFloat(e.ataquesPerigososFora) / parseFloat(e.minutos);
 
       if (Math.abs(diferencaGols) <= 1) {
-        if (appmCasa >= 0.85 && parseInt(e.golsCasa) <= parseInt(e.golsFora)) {
+        if (appmCasa >= 1 && parseInt(e.golsCasa) <= parseInt(e.golsFora)) {
           return e;
         } else if (
-          appmFora >= 0.85 &&
+          appmFora >= 1 &&
           parseInt(e.golsFora) <= parseInt(e.golsCasa)
         ) {
           return e;
